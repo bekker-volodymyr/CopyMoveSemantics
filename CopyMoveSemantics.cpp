@@ -40,6 +40,34 @@ public:
         else {
             arr = nullptr;
         }
+
+        return *this;
+    }
+
+    IntArray(IntArray&& other) noexcept
+        : arr(other.arr), size(other.size) {
+        other.arr = nullptr;
+        other.size = 0;
+    }
+    IntArray& operator=(IntArray&& other) noexcept {
+        if (this != &other) return *this;
+
+        if (arr != nullptr) delete[] arr;
+
+        arr = other.arr;
+        size = other.size;
+
+        other.arr = nullptr;
+        other.size = 0;
+
+        return *this;
+    }
+
+    int operator[](int index) const {
+        return arr[index];
+    }
+    int& operator[](int index) {
+        return arr[index];
     }
 };
 
@@ -60,6 +88,8 @@ int main()
     arr3 = arr2;
 
     IntArray newArr = createFilledArray(5);
+
+    std::cout << newArr[3] << '\n';
 
     //int size = 0;
 
