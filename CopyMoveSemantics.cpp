@@ -25,9 +25,30 @@ public:
         }
     }
     IntArray& operator=(const IntArray& other) {
+		if (this == &other) return *this;
 
+        if (arr != nullptr) delete[] arr;
+
+        size = other.size;
+
+        if (size != 0) {
+            arr = new int[size];
+            for (int i = 0; i < size; ++i) {
+                arr[i] = other.arr[i];
+            }
+        }
+        else {
+            arr = nullptr;
+        }
     }
 };
+
+// Фабрична функція
+IntArray createFilledArray(int size) {
+    IntArray newArr(size);
+    //for(int i = 0; i < size; )
+    return newArr;
+}
 
 int main()
 {
@@ -36,7 +57,9 @@ int main()
 
     IntArray arr3(4);
 
-    arr3 = arr1;
+    arr3 = arr2;
+
+    IntArray newArr = createFilledArray(5);
 
     //int size = 0;
 
