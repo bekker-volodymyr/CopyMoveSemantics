@@ -46,10 +46,12 @@ public:
 
     IntArray(IntArray&& other) noexcept
         : arr(other.arr), size(other.size) {
+        std::cout << "[LOG]: Move constructor\n";
         other.arr = nullptr;
         other.size = 0;
     }
     IntArray& operator=(IntArray&& other) noexcept {
+        std::cout << "[LOG]: Move operator\n";
         if (this != &other) return *this;
 
         if (arr != nullptr) delete[] arr;
@@ -64,9 +66,17 @@ public:
     }
 
     int operator[](int index) const {
+        if (index < 0 || index >= size)
+        {
+            throw std::out_of_range("Index out of range");
+        }
         return arr[index];
     }
     int& operator[](int index) {
+        if (index < 0 || index >= size)
+        {
+            throw std::out_of_range("Index out of range");
+        }
         return arr[index];
     }
 };
@@ -74,22 +84,45 @@ public:
 // Фабрична функція
 IntArray createFilledArray(int size) {
     IntArray newArr(size);
-    //for(int i = 0; i < size; )
+    for (int i = 0; i < size; ++i) {
+        newArr[i] = i + 1;
+    }
     return newArr;
 }
 
 int main()
 {
     IntArray arr1(5);
-    IntArray arr2(arr1);
+    for (int i = 0; i < 5; ++i) {
+        arr1[i] = i + 1;
+    }
 
-    IntArray arr3(4);
+    IntArray arr2(5);
+    
+    arr2 = std::move(arr1);
 
-    arr3 = arr2;
+    //arr2 = createFilledArray(5);
 
-    IntArray newArr = createFilledArray(5);
+    //IntArray arr2 = std::move(arr1);
 
-    std::cout << newArr[3] << '\n';
+
+
+    //IntArray arr1(5);
+    //IntArray arr2(arr1);
+
+    //IntArray arr3();
+
+    //arr3 = arr2;
+
+    //IntArray newArr = createFilledArray(5);
+
+    //std::cout << newArr[3] << '\n';
+
+    //newArr[0] = 10;
+
+    //std::cout << newArr[59] << '\n';
+
+    //newArr[100] = 45;
 
     //int size = 0;
 
